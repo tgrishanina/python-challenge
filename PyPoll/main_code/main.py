@@ -1,0 +1,79 @@
+# First we'll import the os module
+# This will allow us to create file paths across operating systems
+import os
+
+# Module for reading CSV files
+import csv
+
+poll_csv = os.path.join('..', 'Resources', 'election_data.csv')
+
+#Create our function:
+#find total number of votes cast
+#find complete list of candidates who received votes
+#find the percentage of votes each candidate won
+#find the total number of votes each candidate won
+#the winner of the election based on the popular vote
+def print_votes(election_data):
+    total_votes = 0
+    total_candidates = set()
+    votes_won = {}
+    winner = {"name": "", "votes": 0}
+    results_text = ""
+    
+    with open(poll_csv, 'r') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=',')
+        next(csvreader)  # Skip the header row
+        
+        for row in csvreader:
+            #add to the total votes
+            total_votes +=1
+            
+            #find total number of candidates
+            candidates = str(row[2])
+            total_candidates.add(candidates)
+            total_candidates_count = len(total_candidates)
+            
+            #find the total number of votes each candidate won
+            if candidates in votes_won:
+                votes_won[candidates] +=1
+            else:
+                votes_won[candidates] = 1  
+
+        results_text += f"Total Votes: {total_votes}\n"
+        #print(f"Total Votes: {total_votes}")
+            #find the percentage of votes each candidate won
+        for candidate, votes in votes_won.items():
+            percentage = (votes / total_votes)*100
+            results_text += f"{candidate}: {percentage:.3f}% ({votes_won[candidates]})\n"
+            #print(f"{candidate}: {percentage:.3f}% ({votes})")
+
+    # Find the winner
+    winner["name"] = max(votes_won, key=votes_won.get)
+    winner["votes"] = votes_won[winner["name"]]
+        
+    #print(f"Winner: {winner['name']}")
+    results_text += f"Winner: {winner['name']}\n"
+    
+    return results_text
+
+
+
+
+# with open(poll_csv, 'r') as csvfile:
+
+#     # CSV reader specifies delimiter and variable that holds contents
+#     csvreader = csv.reader(csvfile, delimiter=',')
+
+#     # Read the header row first (skip this step if there is no header)
+#     csv_header = next(csvreader)
+
+#call the function
+print_votes(poll_csv)
+results_text = str(print_votes(poll_csv))
+print(results_text)
+
+
+file_path = "../Analysis/results.txt"
+
+with open(file_path, 'w') as file:
+     file.write(results_text)
