@@ -22,7 +22,8 @@ def print_votes(election_data):
     
     with open(poll_csv, 'r') as csvfile:
         csvreader = csv.reader(csvfile, delimiter=',')
-        next(csvreader)  # Skip the header row
+        # Skip the header row
+        next(csvreader)  
         
         for row in csvreader:
             #add to the total votes
@@ -39,33 +40,25 @@ def print_votes(election_data):
             else:
                 votes_won[candidates] = 1  
 
+        #display the total votes
         results_text += f"Total Votes: {total_votes}\n"
-        #print(f"Total Votes: {total_votes}")
-            #find the percentage of votes each candidate won
+        
+        #find the percentage of votes each candidate won
         for candidate, votes in votes_won.items():
             percentage = (votes / total_votes)*100
+            #display each candidates number and percentage of votes
             results_text += f"{candidate}: {percentage:.3f}% ({votes_won[candidates]})\n"
-            #print(f"{candidate}: {percentage:.3f}% ({votes})")
+            
 
     # Find the winner
     winner["name"] = max(votes_won, key=votes_won.get)
     winner["votes"] = votes_won[winner["name"]]
         
-    #print(f"Winner: {winner['name']}")
+    #display the winner's name
     results_text += f"Winner: {winner['name']}\n"
     
     return results_text
 
-
-
-
-# with open(poll_csv, 'r') as csvfile:
-
-#     # CSV reader specifies delimiter and variable that holds contents
-#     csvreader = csv.reader(csvfile, delimiter=',')
-
-#     # Read the header row first (skip this step if there is no header)
-#     csv_header = next(csvreader)
 
 #call the function
 print_votes(poll_csv)
@@ -73,6 +66,7 @@ results_text = str(print_votes(poll_csv))
 print(results_text)
 
 
+#export as a text file
 file_path = "../Analysis/results.txt"
 
 with open(file_path, 'w') as file:

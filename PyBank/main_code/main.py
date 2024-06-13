@@ -81,9 +81,11 @@ print_records(data)
 
 results_text = str(print_records(data))
 
+#export the results
 file_path = "../Analysis/results.txt"
 
 with open(file_path, 'w') as file:
     file.write(results_text)
 
+#print the results in the terminal
 print(results_text)
