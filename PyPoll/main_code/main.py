@@ -47,7 +47,7 @@ def print_votes(election_data):
         for candidate, votes in votes_won.items():
             percentage = (votes / total_votes)*100
             #display each candidates number and percentage of votes
-            results_text += f"{candidate}: {percentage:.3f}% ({votes_won[candidates]})\n"
+            results_text += f"{candidate}: {percentage:.3f}% ({votes})\n"
             
 
     # Find the winner
